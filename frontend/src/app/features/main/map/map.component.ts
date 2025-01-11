@@ -75,15 +75,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       (events) => {
         this.clearMarkers();
         events.forEach((event) => {
-          const marker = new Marker({ color: 'red' })
-            .setLngLat([event.coordinate_long, event.coordinate_lat])
-            .addTo(this.map!);
-
-          marker.getElement().addEventListener('click', () => {
-            this.onMarkerClick(event.id);
-          });
-
-          this.markers.push(marker);
+          if (
+            event.coordinateLat != null &&
+            event.coordinateLong != null &&
+            !isNaN(event.coordinateLat) &&
+            !isNaN(event.coordinateLong)
+          ) {
+            const marker = new Marker({ color: 'red' })
+              .setLngLat([event.coordinateLong, event.coordinateLat])
+              .addTo(this.map!);
+   
+            marker.getElement().addEventListener('click', () => {
+              this.onMarkerClick(event.id);
+            });
+   
+            this.markers.push(marker);
+          } else {
+            console.warn('Invalid coordinates for event:', event);
+          }
         });
       },
       (error) => {
@@ -122,10 +131,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   saveEvent(eventData: any) {
-    this.mapEventsService.saveEvent(eventData).subscribe(
-      () => this.fetchAndDisplayEvents(),
-      (error) => console.error('Error saving event:', error)
-    );
+    if (
+      eventData.coordinate_lat != null &&
+      eventData.coordinate_long != null &&
+      !isNaN(eventData.coordinate_lat) &&
+      !isNaN(eventData.coordinate_long)
+    ) {
+      this.mapEventsService.saveEvent(eventData).subscribe(
+        () => this.fetchAndDisplayEvents(),
+        (error) => console.error('Error saving event:', error)
+      );
+    } else {
+      console.error('Invalid coordinates for event:', eventData);
+    }
   }
 
   onMarkerClick(eventId: string) {

@@ -11,7 +11,7 @@ export class MapEventsService {
   constructor(private http: HttpClient) {}
 
   getAllEvents(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/get-events`);
+    return this.http.get<any[]>(`${this.baseUrl}/get-events/all`);
   }
 
   saveEvent(eventData: any): Observable<any> {
