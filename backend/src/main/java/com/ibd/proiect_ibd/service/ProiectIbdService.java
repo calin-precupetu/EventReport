@@ -23,10 +23,16 @@ public class ProiectIbdService
     @Autowired
     private EventFrontendRepository eventFrontendRepository;
 
-    public List<EventFrontendDto> getAllEvents()
+    public List<EventFrontendDto> getAllEvents(String id)
     {
-        List<EventFrontend> eventsFromDb = eventFrontendRepository.findAll();
-        return eventsFromDb.stream().map(this::eventToDto).collect(Collectors.toList());
+        if (id == null || id.equals("all"))
+        {
+            List<EventFrontend> eventsFromDb = eventFrontendRepository.findAll();
+            return eventsFromDb.stream().map(this::eventToDto).collect(Collectors.toList());
+        }
+        Optional<EventFrontend> eventFrontendOptional = eventFrontendRepository.findById(Long.parseLong(id));
+
+        return eventFrontendOptional.map(eventFrontend -> List.of(eventToDto(eventFrontend))).orElseGet(List::of);
     }
 
     public void saveEvent(Map<String, String> payload)

@@ -18,11 +18,11 @@ public class ApiController
     @Autowired
     private ProiectIbdService proiectIbdService;
 
-    @GetMapping("/get-events")
+    @GetMapping("/get-events/{id}")
     @Transactional
-    public ResponseEntity<List<EventFrontendDto>> getEvents()
+    public ResponseEntity<List<EventFrontendDto>> getEvents(@PathVariable("id") String id)
     {
-        List<EventFrontendDto> allEvents = proiectIbdService.getAllEvents();
+        List<EventFrontendDto> allEvents = proiectIbdService.getAllEvents(id);
         return ResponseEntity.ok().body(allEvents);
     }
 
