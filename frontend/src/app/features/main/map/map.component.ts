@@ -69,29 +69,32 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error('Error fetching city coordinates:', error);
     }
   }
-
   fetchAndDisplayEvents() {
     this.mapEventsService.getAllEvents().subscribe(
       (events) => {
         this.clearMarkers();
         events.forEach((event) => {
+          console.log('Processing event:', event);
+  
           if (
             event.coordinateLat != null &&
             event.coordinateLong != null &&
             !isNaN(event.coordinateLat) &&
-            !isNaN(event.coordinateLong)
+            !isNaN(event.coordinateLong) &&
+            event.id // Asigură-te că ID-ul există
           ) {
             const marker = new Marker({ color: 'red' })
               .setLngLat([event.coordinateLong, event.coordinateLat])
               .addTo(this.map!);
-   
+  
             marker.getElement().addEventListener('click', () => {
+              console.log('Marker clicked, event ID:', event.id);
               this.onMarkerClick(event.id);
             });
-   
+  
             this.markers.push(marker);
           } else {
-            console.warn('Invalid coordinates for event:', event);
+            console.warn('Invalid event data:', event);
           }
         });
       },
@@ -107,15 +110,19 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onMapClick(event: any) {
+    const features = this.map?.queryRenderedFeatures(event.point);
+    if (features && features.length > 0) {
+      // Clicul a fost pe un marker; nu deschide dialogul de adăugare
+      return;
+    }
     const lngLat = event.lngLat;
-
     const tempMarker = new Marker({ color: 'blue' })
       .setLngLat([lngLat.lng, lngLat.lat])
       .addTo(this.map!);
-
     this.openAddEventDialog(lngLat, tempMarker);
   }
-
+  
+  
   openAddEventDialog(lngLat: any, tempMarker: Marker) {
     const dialogRef = this.dialog.open(AddEventDialogComponent, {
       width: '400px',
@@ -146,15 +153,24 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onMarkerClick(eventId: string) {
-    this.mapEventsService.getEventById(eventId).subscribe((event) => {
-      this.dialog.open(EventDetailsDialogComponent, {
-        width: '400px',
-        data: event,
-      });
+  onMarkerClick(eventId: string | undefined) {
+    console.log('Marker clicked, event ID:', eventId);
+  
+    if (!eventId) {
+      console.error('Invalid event ID, dialog will not open');
+      return;
+    }
+  
+    this.dialog.open(EventDetailsDialogComponent, {
+      width: '400px',
+      data: { eventId }, // Transmiterea eventId către dialog
     });
   }
-
+  
+  
+  
+  
+  
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       this.map?.remove();
