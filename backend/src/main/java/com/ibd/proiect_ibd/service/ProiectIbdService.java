@@ -8,7 +8,9 @@ import com.ibd.proiect_ibd.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -43,7 +45,9 @@ public class ProiectIbdService
         newEvent.setCoordinateLat(Double.parseDouble(payload.get("coordinate_lat")));
         newEvent.setCoordinateLong(Double.parseDouble(payload.get("coordinate_long")));
         newEvent.setDescription(payload.get("description"));
-        newEvent.setTimestamp(LocalDateTime.parse(payload.get("timestamp")));
+        Instant instant = Instant.parse(payload.get("timestamp"));
+        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+        newEvent.setTimestamp(localDateTime);
         newEvent.setEmailUser(payload.get("email"));
 
         eventRepository.save(newEvent);
