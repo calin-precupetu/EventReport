@@ -23,6 +23,13 @@ export class MapEventsService {
   }
 
   getEventById(eventId: string): Observable<any> {
+    if (!eventId) {
+      console.error('getEventById called with undefined eventId');
+      throw new Error('Invalid event ID');
+    }
+  
     return this.http.get<any>(`${this.baseUrl}/get-events/${eventId}`);
   }
+  
+   
 }

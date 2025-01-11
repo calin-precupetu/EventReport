@@ -1,18 +1,18 @@
-<h1 mat-dialog-title>Event Details</h1>
+<h1 mat-dialog-title>Detalii Eveniment</h1>
 <div mat-dialog-content>
   <div *ngIf="event">
-    <p><strong>Type:</strong> {{ event.type }}</p>
-    <p><strong>Description:</strong> {{ event.description }}</p>
-    <p><strong>Timestamp:</strong> {{ event.timestamp }}</p>
-    <p><strong>Email:</strong> {{ event.email }}</p>
-    <p><strong>Latitude:</strong> {{ event.coordinate_lat }}</p>
-    <p><strong>Longitude:</strong> {{ event.coordinate_long }}</p>
+    <p>Tip: {{ event.type }}</p>
+    <p>Latitudine: {{ event.coordinateLat }}</p>
+    <p>Longitudine: {{ event.coordinateLong }}</p>
+    <p>Descriere: {{ event.description }}</p>
+    <p>Timp: {{ event.timestamp }}</p>
+    <p>Email Utilizator: {{ event.emailUser }}</p>
   </div>
   <div *ngIf="!event">
-    <p>Loading event details...</p>
+    <p>Se încarcă detaliile evenimentului...</p>
   </div>
 </div>
-<div mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Close</button>
-  <button mat-raised-button color="warn" (click)="deleteEvent()">Delete</button>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Închide</button>
+  <button mat-raised-button color="warn" (click)="deleteEvent()">Șterge</button>
 </div>
