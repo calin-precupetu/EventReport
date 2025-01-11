@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Event Details</h1>
+<div mat-dialog-content>
+  <div *ngIf="event">
+    <p><strong>Type:</strong> {{ event.type }}</p>
+    <p><strong>Description:</strong> {{ event.description }}</p>
+    <p><strong>Timestamp:</strong> {{ event.timestamp }}</p>
+    <p><strong>Email:</strong> {{ event.email }}</p>
+    <p><strong>Latitude:</strong> {{ event.coordinate_lat }}</p>
+    <p><strong>Longitude:</strong> {{ event.coordinate_long }}</p>
+  </div>
+  <div *ngIf="!event">
+    <p>Loading event details...</p>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+  <button mat-raised-button color="warn" (click)="deleteEvent()">Delete</button>
+</div>

@@ -8,11 +8,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { AddEventDialogComponent } from '../../add-event-dialog/add-event-dialog.component'; 
+import { EventDetailsDialogComponent } from '../../event-details-dialog/event-details-dialog.component'; 
 
 @NgModule({
   declarations: [
     MainComponent,
     MapComponent,
+    AddEventDialogComponent,
+    EventDetailsDialogComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +26,9 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    
   ]
 })
 export class MainModule { }
