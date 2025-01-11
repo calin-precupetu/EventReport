@@ -1,4 +1,12 @@
+<div class="search-container">
+  <input 
+    matInput 
+    [(ngModel)]="searchQuery" 
+    (keyup.enter)="searchCity()" 
+    placeholder="Enter city name" 
+    class="search-bar">
+  <button mat-raised-button color="primary" (click)="searchCity()">Search</button>
+</div>
 <div class="map-wrap">
-    <div class="map" #map></div>
-  </div>
-  
+  <div class="map" #map></div>
+</div>
