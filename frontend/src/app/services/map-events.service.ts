@@ -23,6 +23,6 @@ export class MapEventsService {
   }
 
   getEventById(eventId: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/report-event/${eventId}`);
+    return this.http.get<any>(`${this.baseUrl}/get-events/${eventId}`);
   }
 }
