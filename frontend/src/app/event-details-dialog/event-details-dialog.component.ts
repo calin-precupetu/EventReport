@@ -11,7 +11,7 @@ import { Event } from '../interfaces/Event';
 })
 export class EventDetailsDialogComponent {
   event: Event | null = null;
-  loading: boolean = true; // Variabilă pentru starea de încărcare
+  loading: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<EventDetailsDialogComponent>,
@@ -24,16 +24,44 @@ export class EventDetailsDialogComponent {
   fetchEventDetails() {
     this.mapEventsService.getEventById(this.data.eventId).subscribe(
       (response: Event) => {
-        this.event = response;
-        this.loading = false; // Datele sunt preluate, ascunde indicatorul de încărcare
-        console.log('Mapped event:', this.event);
+        if (Array.isArray(response)) {
+          this.event = response[0];
+        } else {
+          this.event = response;
+        }
+        this.loading = false;
       },
       (error) => {
         console.error('Error fetching event details:', error);
-        this.loading = false; // Ascunde indicatorul chiar și în caz de eroare
+        this.loading = false;
         this.dialogRef.close();
       }
     );
+  }
+  
+  objectKeys(obj: any): string[] {
+    return Object.keys(obj);
+  }
+  
+  formatKey(key: string): string {
+    return key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1');
+  }
+  
+  formatValue(key: string, value: any): any {
+    if (key === 'timestamp' && typeof value === 'string') {
+      const date = new Date(value);
+      const day = String(date.getDate()).padStart(2, '0');
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}.${month}.${year}`; // Formatare dd.mm.yyyy
+    }
+    return value;
+  }
+  
+
+
+  close() {
+    this.dialogRef.close();
   }
 
   deleteEvent() {
@@ -41,7 +69,6 @@ export class EventDetailsDialogComponent {
       this.mapEventsService.deleteEvent({ id: this.data.eventId }).subscribe(
         (response) => {
           if (response) {
-            console.log('Event deleted successfully');
             this.dialogRef.close(true);
           } else {
             console.error('Failed to delete event');
@@ -52,9 +79,5 @@ export class EventDetailsDialogComponent {
         }
       );
     }
-  }
-
-  close() {
-    this.dialogRef.close();
   }
 }

@@ -1,15 +1,14 @@
 <h1 mat-dialog-title>Detalii Eveniment</h1>
 <div mat-dialog-content>
-  <div *ngIf="event">
-    <p>Tip: {{ event.type }}</p>
-    <p>Latitudine: {{ event.coordinateLat }}</p>
-    <p>Longitudine: {{ event.coordinateLong }}</p>
-    <p>Descriere: {{ event.description }}</p>
-    <p>Timp: {{ event.timestamp }}</p>
-    <p>Email Utilizator: {{ event.emailUser }}</p>
-  </div>
-  <div *ngIf="!event">
+  <div *ngIf="loading">
     <p>Se încarcă detaliile evenimentului...</p>
+  </div>
+
+  <div *ngIf="!loading && event">
+    <p><strong>Informații Eveniment:</strong></p>
+    <div *ngFor="let key of objectKeys(event)">
+      <p>{{ formatKey(key) }}: {{ formatValue(key, event[key]) }}</p>
+    </div>
   </div>
 </div>
 <div mat-dialog-actions>
