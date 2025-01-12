@@ -1,21 +1,26 @@
+/* Stiluri pentru detaliile evenimentului */
 .event-details {
   position: fixed;
   bottom: 20px;
   left: 20px;
-  background: #fff;
+  background: #ffffff;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   width: 350px;
-  font-size: 14px;
+  font-size: 16px;
   z-index: 1000;
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: 'Arial', sans-serif;
 }
 
 .event-details h3 {
   margin-top: 0;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
 }
 
 .close-button {
@@ -24,11 +29,87 @@
   right: 10px;
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   color: #333;
 }
 
 .close-button:hover {
   color: #ff0000;
+}
+
+/* Stiluri pentru formularul de adăugare a evenimentului */
+.add-event-form {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #ffffff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1000;
+  font-family: 'Arial', sans-serif;
+}
+
+.add-event-form h3 {
+  margin-top: 0;
+  font-size: 22px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Stiluri pentru câmpurile de formular */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+input, textarea {
+  font-size: 16px;
+  padding: 12px;
+}
+
+/* Stiluri pentru butoanele */
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 4px;
+  width: 48%;
+  font-family: 'Arial', sans-serif;
+}
+
+button[type="submit"] {
+  background-color: #3f51b5;
+  color: #fff;
+  border: none;
+}
+
+button[type="button"] {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background-color: #303f9f;
+}
+
+button[type="button"]:hover {
+  background-color: #d32f2f;
 }

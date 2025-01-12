@@ -2,7 +2,8 @@
   [height]="'100vh'" 
   [width]="'100vw'" 
   [center]="center" 
-  [zoom]="zoom">
+  [zoom]="zoom" 
+  (mapClick)="onMapClick($event)">
   
   <!-- Adaugă marcajele dinamice -->
   <map-marker 
@@ -12,6 +13,49 @@
     (mapClick)="onMarkerClick(marker.id)">
   </map-marker>
 </google-map>
+
+<!-- Formular de adăugare eveniment -->
+<div *ngIf="isAddEventVisible" class="add-event-form">
+  <h3 class="form-title">Adaugă Eveniment</h3>
+  <form (ngSubmit)="onAddEvent()">
+    
+    <!-- Tipul Evenimentului -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Tip Eveniment</mat-label>
+      <input matInput [(ngModel)]="newEvent.type" name="type" required>
+    </mat-form-field>
+
+    <!-- Latitudine -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Latitudine</mat-label>
+      <input matInput type="number" [(ngModel)]="newEvent.coordinateLat" name="coordinateLat" required>
+    </mat-form-field>
+
+    <!-- Longitudine -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Longitudine</mat-label>
+      <input matInput type="number" [(ngModel)]="newEvent.coordinateLong" name="coordinateLong" required>
+    </mat-form-field>
+
+    <!-- Descriere -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Descriere</mat-label>
+      <textarea matInput [(ngModel)]="newEvent.description" name="description"></textarea>
+    </mat-form-field>
+
+    <!-- Email utilizator -->
+    <mat-form-field appearance="fill" class="form-field">
+      <mat-label>Email Utilizator</mat-label>
+      <input matInput type="email" [(ngModel)]="newEvent.emailUser" name="emailUser" required>
+    </mat-form-field>
+
+    <!-- Butoane -->
+    <div class="button-container">
+      <button mat-raised-button color="primary" type="submit">Adaugă Eveniment</button>
+      <button mat-button color="warn" type="button" (click)="toggleAddEvent()">Anulează</button>
+    </div>
+  </form>
+</div>
 
 <!-- Detalii eveniment -->
 <div *ngIf="selectedEvent" class="event-details">
@@ -24,5 +68,3 @@
  }}, {{ selectedEvent.coordinateLong }}</p>
   <p><strong>Timp:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
   <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
-</div>
-

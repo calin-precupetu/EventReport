@@ -48,8 +48,9 @@ export class EventService {
   }
   
 
-  saveEvent(eventData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/report-event`, eventData);
+  reportEvent(eventData: { [key: string]: string }): Observable<boolean> {
+    console.log(eventData)
+    return this.http.post<boolean>(`${this.baseUrl}/report-event`, eventData);
   }
 
   deleteEvent(eventData: any): Observable<any> {
