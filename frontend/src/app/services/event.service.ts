@@ -27,7 +27,7 @@ export class EventService {
       map((events) =>
         events.map((event) => ({
           id: event.id.toString(),
-          name: event.type, // Folosim `type` ca nume
+          name: event.type,
           latitude: event.coordinateLat,
           longitude: event.coordinateLong,
           type: event.type,

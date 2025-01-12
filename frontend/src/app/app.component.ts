@@ -24,20 +24,20 @@ export class AppComponent implements OnInit {
           lng: event.longitude,
           id: event.id,
         }));
-      },
-      (error) => {
-        console.error('Error fetching events:', error);
       }
     );
   }
 
   onMarkerClick(markerId: string): void {
     this.eventService.getEventById(markerId).subscribe(res =>{
-      console.log(res)
       this.selectedEvent = Array.isArray(res) ? res[0] : res;
     }
     );
     
+  }
+  
+  closeEventDetails(): void {
+    this.selectedEvent = null; 
   }
   
   

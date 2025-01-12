@@ -15,6 +15,7 @@
 
 <!-- Detalii eveniment -->
 <div *ngIf="selectedEvent" class="event-details">
+  <button (click)="closeEventDetails()" class="close-button">✕</button>
   <h3>Detalii Eveniment</h3>
   <p><strong>ID:</strong> {{ selectedEvent.id }}</p>
   <p><strong>Tip:</strong> {{ selectedEvent.name }}</p>
@@ -24,3 +25,4 @@
   <p><strong>Timp:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
   <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
 </div>
+
