@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 
 import { AddEventDialogComponent } from '../../add-event-dialog/add-event-dialog.component'; 
 import { EventDetailsDialogComponent } from '../../event-details-dialog/event-details-dialog.component'; 
+import { MapService, NgxMapboxGLModule } from 'ngx-mapbox-gl';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import { EventDetailsDialogComponent } from '../../event-details-dialog/event-de
     MatButtonModule,
     FormsModule,
     MatDialogModule,
-    
-  ]
+    NgxMapboxGLModule.withConfig({
+      accessToken: '6g50WEF1s7adz3kx0N1A', 
+    }),
+  ],
+  providers: [MapService],
 })
 export class MainModule { }
