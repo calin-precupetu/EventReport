@@ -110,48 +110,53 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onMapClick(event: any) {
-    const features = this.map?.queryRenderedFeatures(event.point);
-    if (features && features.length > 0) {
-      // Clicul a fost pe un marker; nu deschide dialogul de adăugare
+    console.log('Map clicked, event:', event);
+  
+    const lngLat = event.lngLat;
+  
+    if (!lngLat) {
+      console.error('Invalid click event, no coordinates found.');
       return;
     }
-    const lngLat = event.lngLat;
+  
     const tempMarker = new Marker({ color: 'blue' })
       .setLngLat([lngLat.lng, lngLat.lat])
       .addTo(this.map!);
+  
+    console.log('Temporary marker added at:', lngLat);
+  
     this.openAddEventDialog(lngLat, tempMarker);
   }
   
   
+  
   openAddEventDialog(lngLat: any, tempMarker: Marker) {
+    console.log('Opening Add Event Dialog with coordinates:', lngLat);
+  
     const dialogRef = this.dialog.open(AddEventDialogComponent, {
       width: '400px',
       data: { coordinate_lat: lngLat.lat, coordinate_long: lngLat.lng },
     });
-
+  
     dialogRef.afterClosed().subscribe((result) => {
+      console.log('Dialog closed with result:', result);
       if (result) {
         this.saveEvent(result);
       }
       tempMarker.remove();
     });
   }
+  
+  
 
-  saveEvent(eventData: any) {
-    if (
-      eventData.coordinate_lat != null &&
-      eventData.coordinate_long != null &&
-      !isNaN(eventData.coordinate_lat) &&
-      !isNaN(eventData.coordinate_long)
-    ) {
-      this.mapEventsService.saveEvent(eventData).subscribe(
-        () => this.fetchAndDisplayEvents(),
-        (error) => console.error('Error saving event:', error)
-      );
-    } else {
-      console.error('Invalid coordinates for event:', eventData);
-    }
-  }
+isSaving: boolean = false;
+
+saveEvent(eventData: any) {
+    // this.mapEventsService.saveEvent(eventData).subscribe();
+    // this.fetchAndDisplayEvents()sa
+}
+
+
 
   onMarkerClick(eventId: string | undefined) {
     console.log('Marker clicked, event ID:', eventId);

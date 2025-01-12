@@ -9,12 +9,14 @@ import { MapEventsService } from '../services/map-events.service';
 })
 export class AddEventDialogComponent {
   event: any;
+  isSaving: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<AddEventDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private mapEventsService: MapEventsService
   ) {
+
     this.event = {
       type: '',
       description: '',
@@ -25,14 +27,23 @@ export class AddEventDialogComponent {
   }
 
   save() {
+    if (this.isSaving) {
+      console.warn('Save already in progress.');
+      return;
+    }
+
+    this.isSaving = true; 
     this.event.timestamp = new Date().toISOString();
+
     this.mapEventsService.saveEvent(this.event).subscribe(
       (response) => {
         console.log('Event saved successfully:', response);
+        this.isSaving = false; 
         this.dialogRef.close(this.event);
       },
       (error) => {
         console.error('Error saving event:', error);
+        this.isSaving = false; 
       }
     );
   }

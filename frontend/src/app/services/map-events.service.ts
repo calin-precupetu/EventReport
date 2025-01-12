@@ -27,7 +27,6 @@ export class MapEventsService {
       console.error('getEventById called with undefined eventId');
       throw new Error('Invalid event ID');
     }
-  
     return this.http.get<any>(`${this.baseUrl}/get-events/${eventId}`);
   }
   
