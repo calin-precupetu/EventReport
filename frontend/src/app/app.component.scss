@@ -1,8 +1,12 @@
-html, body, app-root, google-map {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
-  
+.event-details {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #fff;
+  padding: 20px; /* Dimensiuni mai mari */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 300px; /* Lățime mai mare */
+  font-size: 16px; /* Font mai mare */
+}

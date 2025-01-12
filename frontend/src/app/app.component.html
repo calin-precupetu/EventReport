@@ -7,7 +7,20 @@
   <!-- Adaugă marcajele dinamice -->
   <map-marker 
     *ngFor="let marker of markers" 
-    [position]="marker" 
-    [title]="'Event: ' + marker.lat + ', ' + marker.lng">
+    [position]="{ lat: marker.lat, lng: marker.lng }" 
+    [title]="'Event: ' + marker.lat + ', ' + marker.lng"
+    (mapClick)="onMarkerClick(marker.id)">
   </map-marker>
 </google-map>
+
+<!-- Detalii eveniment -->
+<div *ngIf="selectedEvent" class="event-details">
+  <h3>Detalii Eveniment</h3>
+  <p><strong>ID:</strong> {{ selectedEvent.id }}</p>
+  <p><strong>Tip:</strong> {{ selectedEvent.name }}</p>
+  <p><strong>Descriere:</strong> {{ selectedEvent.description }}</p>
+  <p><strong>Coordonate:</strong> {{ selectedEvent.coordinateLat
+ }}, {{ selectedEvent.coordinateLong }}</p>
+  <p><strong>Timp:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
+  <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
+</div>
