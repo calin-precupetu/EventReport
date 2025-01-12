@@ -68,3 +68,5 @@
  }}, {{ selectedEvent.coordinateLong }}</p>
   <p><strong>Timp:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
   <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
+  <button mat-raised-button color="warn" (click)="onDeleteEvent(selectedEvent.id)">Delete Event</button>
+  

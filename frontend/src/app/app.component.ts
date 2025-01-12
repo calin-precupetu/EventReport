@@ -97,4 +97,12 @@ newEvent = {
       this.isAddEventVisible = true; // Afișăm formularul
     }
   }
+
+  onDeleteEvent(eventId: string): void {
+      this.eventService.deleteEvent(eventId).subscribe({
+      });
+      this.refreshMarkers();
+    }
+
+  
 }

@@ -53,7 +53,9 @@ export class EventService {
     return this.http.post<boolean>(`${this.baseUrl}/report-event`, eventData);
   }
 
-  deleteEvent(eventData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/delete-event`, eventData);
+  deleteEvent(eventId: string): Observable<boolean> {
+    const payload = { id: eventId }; 
+    return this.http.post<boolean>(`${this.baseUrl}/delete-event`, payload);
   }
+  
 }
