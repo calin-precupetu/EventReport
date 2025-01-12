@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<google-map 
+  [height]="'100vh'" 
+  [width]="'100vw'" 
+  [center]="center" 
+  [zoom]="zoom">
+  
+  <!-- Adaugă marcajele dinamice -->
+  <map-marker 
+    *ngFor="let marker of markers" 
+    [position]="marker" 
+    [title]="'Event: ' + marker.lat + ', ' + marker.lng">
+  </map-marker>
+</google-map>

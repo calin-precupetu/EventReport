@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface EventFrontendDto {
+  id: string;
+  name: string;
+  latitude: number;
+  longitude: number;
+}
+
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class MapEventsService {
+export class EventService {
   private baseUrl = 'http://localhost:9090/report';
 
   constructor(private http: HttpClient) {}
@@ -29,6 +36,4 @@ export class MapEventsService {
     }
     return this.http.get<any>(`${this.baseUrl}/get-events/${eventId}`);
   }
-  
-   
 }
