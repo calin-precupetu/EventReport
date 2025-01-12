@@ -1,4 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  Inject,
+} from '@angular/core';
 import { Map, Marker, MapStyle, config } from '@maptiler/sdk';
 import { isPlatformBrowser } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
@@ -69,32 +77,31 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       console.error('Error fetching city coordinates:', error);
     }
   }
+
   fetchAndDisplayEvents() {
     this.mapEventsService.getAllEvents().subscribe(
       (events) => {
         this.clearMarkers();
         events.forEach((event) => {
-          console.log('Processing event:', event);
-  
           if (
             event.coordinateLat != null &&
             event.coordinateLong != null &&
             !isNaN(event.coordinateLat) &&
             !isNaN(event.coordinateLong) &&
-            event.id // Asigură-te că ID-ul există
+            event.id
           ) {
             const marker = new Marker({ color: 'red' })
               .setLngLat([event.coordinateLong, event.coordinateLat])
               .addTo(this.map!);
-  
-            marker.getElement().addEventListener('click', () => {
+
+            marker.getElement().setAttribute('data-id', event.id);
+            marker.getElement().addEventListener('click', (e) => {
+              e.stopPropagation(); 
               console.log('Marker clicked, event ID:', event.id);
-              this.onMarkerClick(event.id);
+              this.onMarkerClick(event.id); 
             });
-  
+
             this.markers.push(marker);
-          } else {
-            console.warn('Invalid event data:', event);
           }
         });
       },
@@ -111,33 +118,45 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onMapClick(event: any) {
     console.log('Map clicked, event:', event);
-  
+
+    const features = this.map?.queryRenderedFeatures(event.point);
+
+    if (features && features.length > 0) {
+      const clickedMarker = features.find((feature) => feature.layer.id === 'marker-layer');
+      if (clickedMarker && clickedMarker.properties) {
+        const eventId = clickedMarker.properties['id']; 
+        if (eventId) {
+          console.log('Click detected on a marker.');
+          this.onMarkerClick(eventId);
+          return;
+        }
+      }
+    }
+    
     const lngLat = event.lngLat;
-  
+
     if (!lngLat) {
       console.error('Invalid click event, no coordinates found.');
       return;
     }
-  
+
+    console.log('Temporary marker added at:', lngLat);
+
     const tempMarker = new Marker({ color: 'blue' })
       .setLngLat([lngLat.lng, lngLat.lat])
       .addTo(this.map!);
-  
-    console.log('Temporary marker added at:', lngLat);
-  
+
     this.openAddEventDialog(lngLat, tempMarker);
   }
-  
-  
-  
+
   openAddEventDialog(lngLat: any, tempMarker: Marker) {
     console.log('Opening Add Event Dialog with coordinates:', lngLat);
-  
+
     const dialogRef = this.dialog.open(AddEventDialogComponent, {
       width: '400px',
       data: { coordinate_lat: lngLat.lat, coordinate_long: lngLat.lng },
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       console.log('Dialog closed with result:', result);
       if (result) {
@@ -146,36 +165,27 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       tempMarker.remove();
     });
   }
-  
-  
 
-isSaving: boolean = false;
+  isSaving: boolean = false;
 
-saveEvent(eventData: any) {
-    // this.mapEventsService.saveEvent(eventData).subscribe();
-    // this.fetchAndDisplayEvents()sa
-}
-
-
+  saveEvent(eventData: any) {
+    console.log('Saving event:', eventData);
+  }
 
   onMarkerClick(eventId: string | undefined) {
     console.log('Marker clicked, event ID:', eventId);
-  
+
     if (!eventId) {
       console.error('Invalid event ID, dialog will not open');
       return;
     }
-  
+
     this.dialog.open(EventDetailsDialogComponent, {
       width: '400px',
-      data: { eventId }, // Transmiterea eventId către dialog
+      data: { eventId },
     });
   }
-  
-  
-  
-  
-  
+
   ngOnDestroy() {
     if (isPlatformBrowser(this.platformId)) {
       this.map?.remove();
