@@ -50,7 +50,7 @@ public class ProiectIbdService
         newEvent.setTimestamp(localDateTime);
         newEvent.setEmailUser(payload.get("email"));
 
-        eventRepository.save(newEvent);
+//       eventRepository.save(newEvent);
         eventFrontendRepository.save(eventToFrontend(newEvent));
     }
 

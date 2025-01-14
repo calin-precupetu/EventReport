@@ -8,12 +8,12 @@ import { EventService, EventFrontendDto } from './services/event.service';
 })
 export class AppComponent implements OnInit {
   title = 'harta';
-  center: google.maps.LatLngLiteral = { lat: 44.4268, lng: 26.1025 }; // Centru pe București
+  center: google.maps.LatLngLiteral = { lat: 44.4268, lng: 26.1025 }; 
   zoom = 14;
 
-  markers: { lat: number; lng: number; id: string }[] = []; // Markerele de pe hartă
-  selectedEvent: any; // Evenimentul selectat pentru detalii
-  isAddEventVisible = false; // Control pentru afișarea formularului
+  markers: { lat: number; lng: number; id: string }[] = []; 
+  selectedEvent: any; 
+  isAddEventVisible = false; 
 newEvent = {
   type: '',
   coordinateLat: null as number | null,
@@ -41,7 +41,7 @@ newEvent = {
   }
 
   closeEventDetails(): void {
-    this.selectedEvent = null; // Resetează evenimentul selectat
+    this.selectedEvent = null; 
   }
 
   onAddEvent(): void {
@@ -54,7 +54,7 @@ newEvent = {
       email: this.newEvent.emailUser,
     };
   
-    console.log('Payload trimis:', eventWithMappedKeys); // Verifică payload-ul în consolă
+    console.log('Payload trimis:', eventWithMappedKeys); 
   
     this.eventService.reportEvent(eventWithMappedKeys).subscribe(
       (response) => {
@@ -94,14 +94,15 @@ newEvent = {
     if (event.latLng) {
       this.newEvent.coordinateLat = event.latLng.lat();
       this.newEvent.coordinateLong = event.latLng.lng();
-      this.isAddEventVisible = true; // Afișăm formularul
+      this.isAddEventVisible = true; 
     }
   }
 
   onDeleteEvent(eventId: string): void {
-      this.eventService.deleteEvent(eventId).subscribe({
+      this.eventService.deleteEvent(eventId).subscribe( event => {
+        this.refreshMarkers();
       });
-      this.refreshMarkers();
+      
     }
 
   

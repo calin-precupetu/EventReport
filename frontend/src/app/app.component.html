@@ -4,8 +4,6 @@
   [center]="center" 
   [zoom]="zoom" 
   (mapClick)="onMapClick($event)">
-  
-  <!-- Adaugă marcajele dinamice -->
   <map-marker 
     *ngFor="let marker of markers" 
     [position]="{ lat: marker.lat, lng: marker.lng }" 
@@ -14,42 +12,35 @@
   </map-marker>
 </google-map>
 
-<!-- Formular de adăugare eveniment -->
 <div *ngIf="isAddEventVisible" class="add-event-form">
   <h3 class="form-title">Adaugă Eveniment</h3>
   <form (ngSubmit)="onAddEvent()">
-    
-    <!-- Tipul Evenimentului -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Tip Eveniment</mat-label>
-      <input matInput [(ngModel)]="newEvent.type" name="type" required>
+      <mat-select [(ngModel)]="newEvent.type" name="type" required>
+        <mat-option value="Flood">Flood</mat-option>
+        <mat-option value="Accident">Accident</mat-option>
+        <mat-option value="Fire">Fire</mat-option>
+        <mat-option value="Protest">Protest</mat-option>
+        <mat-option value="Other">Other</mat-option>
+      </mat-select>
     </mat-form-field>
-
-    <!-- Latitudine -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Latitudine</mat-label>
       <input matInput type="number" [(ngModel)]="newEvent.coordinateLat" name="coordinateLat" required>
     </mat-form-field>
-
-    <!-- Longitudine -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Longitudine</mat-label>
       <input matInput type="number" [(ngModel)]="newEvent.coordinateLong" name="coordinateLong" required>
     </mat-form-field>
-
-    <!-- Descriere -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Descriere</mat-label>
-      <textarea matInput [(ngModel)]="newEvent.description" name="description"></textarea>
+      <textarea matInput [(ngModel)]="newEvent.description" name="description" required></textarea>
     </mat-form-field>
-
-    <!-- Email utilizator -->
     <mat-form-field appearance="fill" class="form-field">
       <mat-label>Email Utilizator</mat-label>
       <input matInput type="email" [(ngModel)]="newEvent.emailUser" name="emailUser" required>
     </mat-form-field>
-
-    <!-- Butoane -->
     <div class="button-container">
       <button mat-raised-button color="primary" type="submit">Adaugă Eveniment</button>
       <button mat-button color="warn" type="button" (click)="toggleAddEvent()">Anulează</button>
@@ -57,16 +48,14 @@
   </form>
 </div>
 
-<!-- Detalii eveniment -->
 <div *ngIf="selectedEvent" class="event-details">
   <button (click)="closeEventDetails()" class="close-button">✕</button>
   <h3>Detalii Eveniment</h3>
   <p><strong>ID:</strong> {{ selectedEvent.id }}</p>
-  <p><strong>Tip:</strong> {{ selectedEvent.name }}</p>
+  <p><strong>Tip:</strong> {{ selectedEvent.type }}</p>
   <p><strong>Descriere:</strong> {{ selectedEvent.description }}</p>
-  <p><strong>Coordonate:</strong> {{ selectedEvent.coordinateLat
- }}, {{ selectedEvent.coordinateLong }}</p>
-  <p><strong>Timp:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
+  <p><strong>Coordonate:</strong> {{ selectedEvent.coordinateLat }}, {{ selectedEvent.coordinateLong }}</p>
+  <p><strong>Ora raportarii:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
   <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
   <button mat-raised-button color="warn" (click)="onDeleteEvent(selectedEvent.id)">Delete Event</button>
-  
+</div>
