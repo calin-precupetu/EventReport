@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">EventReportAndroid</string>
+
+    <!-- Event Types -->
+    <string-array name="event_types">
+        <item>Fire</item>
+        <item>Protest</item>
+        <item>Accident</item>
+        <item>Flood</item>
+        <item>Other</item>
+    </string-array>
+</resources>
