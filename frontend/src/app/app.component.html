@@ -62,7 +62,7 @@
   <p><strong>Tip:</strong> {{ selectedEvent.type }}</p>
   <p><strong>Descriere:</strong> {{ selectedEvent.description }}</p>
   <p><strong>Coordonate:</strong> {{ selectedEvent.coordinateLat }}, {{ selectedEvent.coordinateLong }}</p>
-  <p><strong>Ora raportarii:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy' }}</p>
+  <p><strong>Ora si data raportarii:</strong> {{ selectedEvent.timestamp | date: 'dd.MM.yy - hh:mm'  }}</p>
   <p><strong>Email utilizator:</strong> {{ selectedEvent.emailUser }}</p>
   <button mat-raised-button color="warn" (click)="onDeleteEvent(selectedEvent.id)">Delete Event</button>
 </div>
