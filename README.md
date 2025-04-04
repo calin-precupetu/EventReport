@@ -1,4 +1,4 @@
-1. Install PostgreSQL https://www.enterprisedb.com/downloads/postgres-postgresql-downloads(set password to admin)
+1. Install PostgreSQL https://www.enterprisedb.com/downloads/postgres-postgresql-downloads (set password to admin)
 2. Add bin path(C/Program Files/postgres/bin) to PATH env variables
 3. In pgAdmin: Object -> Register-> Server (name: EventReport)
 
